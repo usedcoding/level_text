@@ -3,4 +3,6 @@
 
 <a th:href="@{/article/list}">목록</a>
 
-<button TYPE="submit">게시판</button>
+
+<a th:href="@{|/article/delete/${article.id}|}"> 삭제 </a>
+<a th:href="@{|/article/modify/${article.id}|}"> 수정 </a>

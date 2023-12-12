@@ -40,5 +40,28 @@ public class ArticleController {
         return "article_detail";
     }
 
+    @GetMapping("/modify/{id}")
+    public String modify(Model model, @PathVariable("id") Integer id) {
+        Article article = this.articleService.getArticle(id);
+        model.addAttribute("article", article);
+        return "article_modify";
+    }
+
+    @PostMapping("/modify/{id}")
+    public String modify(Model model, @PathVariable("id") Integer id, ArticleForm articleForm) {
+        Article article = this.articleService.getArticle(id);
+        model.addAttribute("article", article);
+        this.articleService.modify(article, articleForm);
+        return "redirect:/article/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") Integer id, Model model) {
+        Article article = this.articleService.getArticle(id);
+        model.addAttribute("article", article);
+        this.articleService.delete(article);
+        return "redirect:/article/list";
+    }
+
 
 }

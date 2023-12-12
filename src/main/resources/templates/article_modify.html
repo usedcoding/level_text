@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content" class="container my-3">
-    <form th:action="@{/article/create}" method="post" class="my-3">
+    <form th:action="@{|/article/modify/${article.id}|}" method="post" class="my-3">
         제목 <input type="text" name="title">
         <br>
         내용 <textarea name="content" id="content" rows="10" class="form-control"></textarea>

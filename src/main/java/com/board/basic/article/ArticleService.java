@@ -30,4 +30,17 @@ public class ArticleService {
     public List<Article> getList() {
         return this.articleRepository.findAll();
     }
+
+    public Article modify(Article article, ArticleForm articleForm) {
+        article.setTitle(articleForm.getTitle());
+        article.setContent(articleForm.getContent());
+        article.setCreateDate(LocalDateTime.now());
+
+        this.articleRepository.save(article);
+        return article;
+    }
+
+    public void delete(Article article) {
+        this.articleRepository.delete(article);
+    }
 }
