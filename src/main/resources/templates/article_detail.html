@@ -5,4 +5,9 @@
 
 
 <a th:href="@{|/article/delete/${article.id}|}"> 삭제 </a>
-<a th:href="@{|/article/modify/${article.id}|}"> 수정 </a>
+<div class="my-3">
+    <a th:href="@{|/article/modify/${article.id}|}" class="btn btn-sm btn-outline-secondary"
+       sec:authorize="isAuthenticated()"
+       th:if="${article.user != null and #authentication.getPrincipal().getUsername() ==article.user.username}"
+       th:text="수정"></a>
+</div>
