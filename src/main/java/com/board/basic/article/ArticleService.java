@@ -33,9 +33,8 @@ public class ArticleService {
             throw new DataNotFoundException("article not found");
         }
     }
-
-    public List<Article> getList() {
-        return this.articleRepository.findAll();
+    public List<Article> getList(String keyword) {
+        return this.articleRepository.findAllByKeyword(keyword);
     }
 
     public Article modify(Article article,String title, String content) {
