@@ -38,7 +38,7 @@ public class ArticleService {
         return this.articleRepository.findAll();
     }
 
-    public Article modify(Article article, String title, String content) {
+    public Article modify(Article article,String title, String content) {
         article.setTitle(title);
         article.setContent(content);
         article.setCreateDate(LocalDateTime.now());
@@ -47,8 +47,7 @@ public class ArticleService {
         return article;
     }
 
-    public void delete(Article article, SiteUser siteUser) {
-        article.setUser(siteUser);
+    public void delete(Article article) {
         this.articleRepository.delete(article);
     }
 }

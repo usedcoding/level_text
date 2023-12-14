@@ -55,30 +55,31 @@ public class ArticleController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify/{id}")
-    public String modify(ArticleForm articleForm, @PathVariable("id") Integer id, Principal principal) {
+    public String modify(ArticleForm articleForm, @PathVariable("id") Integer id, Principal principal, Model model) {
         Article article = this.articleService.getArticle(id);
 
-        //수정 사항 입력시 500 error 발생 해결 필요
+        model.addAttribute("article", article);
+
         if (!article.getUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         articleForm.setTitle(article.getTitle());
         articleForm.setContent(article.getContent());
-        return "article_form";
+        return "article_modify";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String modify(BindingResult bindingResult, @PathVariable("id") Integer id, @Valid ArticleForm articleForm, Principal principal) {
+    public String modify(@PathVariable("id") Integer id, @Valid ArticleForm articleForm, BindingResult bindingResult,  Principal principal) {
 
         if (bindingResult.hasErrors()) {
-            return "article_form";
+            return "article_modify";
         }
         Article article = this.articleService.getArticle(id);
 
 
         if (!article.getUser().getUsername().equals(principal.getName())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
 
         this.articleService.modify(article, articleForm.getTitle(), articleForm.getContent());
@@ -87,11 +88,10 @@ public class ArticleController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Integer id, Model model, Principal principal) {
+    public String delete(@PathVariable("id") Integer id, Model model) {
         Article article = this.articleService.getArticle(id);
         model.addAttribute("article", article);
-        SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.articleService.delete(article, siteUser);
+        this.articleService.delete(article);
         return "redirect:/article/list";
     }
 
